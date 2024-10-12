@@ -10,8 +10,6 @@ const dataSchema = z.object({
   language: z.string(),
 });
 
-
-
 export const loginResponseSchema = z.object({
   hasError: z.boolean(),
   code: z.number(),

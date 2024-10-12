@@ -1,9 +1,11 @@
 import {ApiRequestHandler} from "../utils/api-request-handler";
 import {ApiCrossLoginRequestBody} from "./models/cross-login/request-body";
 import {loginResponseSchema, LoginResponseType} from "./models/cross-login/response";
-import {ApiGetInverterDataAllRequestBody} from "./models/get-inverter-all-data/request-body";
-import {getInverterAllDataResponseSchema, GetInverterAllDataResponseType} from "./models/get-inverter-all-data/response";
+import {ApiGetInverterAllPointRequestBody} from "./models/get-inverter-all-point/request-body";
+import {getInverterAllPointResponseSchema, GetInverterAllPointResponseType} from "./models/get-inverter-all-point/response";
 import {Token} from "./models/shared/token-schema";
+import {ApiGetInverterDataRequestBody, getInverterDataRequestBodySchema} from "./models/get-inverter-data/request-body";
+import {getInverterDataResponseSchema, GetInverterDataResponseType} from "./models/get-inverter-data/response";
 
 export class GoodWeApi extends ApiRequestHandler {
   private readonly username: string;
@@ -29,7 +31,8 @@ export class GoodWeApi extends ApiRequestHandler {
 
   private readonly endPoints = {
     login: '/Common/CrossLogin',
-    getInverterAllData: '/PowerStation/GetInverterAllPoint',
+    getInverterAllPoint: '/PowerStation/GetInverterAllPoint',
+    getInverterData: '/Inverter/GetInverterData',
   }
 
   async getLoginToken(): Promise<LoginResponseType | void> {
@@ -47,7 +50,6 @@ export class GoodWeApi extends ApiRequestHandler {
 
       const headers = {
         'Content-Type': 'application/json',
-        // Note: Somehow the API expects the token to be base64 encoded
         'Token': btoa(JSON.stringify(emptyToken)),
       };
 
@@ -62,33 +64,57 @@ export class GoodWeApi extends ApiRequestHandler {
         method: 'POST',
         headers,
         body: JSON.stringify(body),
-        schema: loginResponseSchema
+        schema: loginResponseSchema,
       });
     } catch (error) {
       console.error('SEMS authentication error:', error);
     }
   }
 
-  async getInverterData({ token }: {token: Token}): Promise<GetInverterAllDataResponseType | void> {
+  async getInverterAllPointData({ token }: {token: Token}): Promise<GetInverterAllPointResponseType | void> {
     try {
       const headers = {
-        // Note: Somehow the API expects the token to be base64 encoded
         'Token': btoa(JSON.stringify(token)),
         'Content-Type': 'application/json',
       };
 
-      const body: ApiGetInverterDataAllRequestBody = {
+      const body: ApiGetInverterAllPointRequestBody = {
         powerStationId: this.stationID,
       };
 
-      const url = this.apiBaseUrl + this.endPoints.getInverterAllData;
+      const url = this.apiBaseUrl + this.endPoints.getInverterAllPoint;
 
-      return this.makeAndRequestAndValidate<GetInverterAllDataResponseType>({
+      return this.makeAndRequestAndValidate<GetInverterAllPointResponseType>({
         url,
         method: 'POST',
         headers,
         body: JSON.stringify(body),
-        schema: getInverterAllDataResponseSchema
+        schema: getInverterAllPointResponseSchema,
+      });
+    } catch(error) {
+      console.error('SEMS GetInverterAllPointData Error:', error);
+    }
+  }
+
+  async GetInverterData({ token, serialNumber }: {token: Token; serialNumber: string}): Promise<GetInverterDataResponseType | void> {
+    try {
+      const headers = {
+        'Token': btoa(JSON.stringify(token)),
+        'Content-Type': 'application/json',
+      };
+
+      const body: ApiGetInverterDataRequestBody = {
+        sn: serialNumber,
+      };
+
+      const url = this.apiBaseUrl + this.endPoints.getInverterData;
+
+      return this.makeAndRequestAndValidate({
+        url,
+        method: 'POST',
+        headers,
+        body: JSON.stringify(body),
+        schema: getInverterDataResponseSchema,
       });
     } catch(error) {
       console.error('SEMS GetInvertedData Error:', error);
