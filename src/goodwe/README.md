@@ -12,7 +12,7 @@ These tokens can be sent with the API requests in the header.
 
 > Note: Somehow the end points require that the tokens are encoded with [btoa](https://developer.mozilla.org/en-US/docs/Web/API/Window/btoa) and not a different base64 encoding. (because btoa adds padding characters '=' to ensure the output length is a multiple of 4)
 
-The "CrossLogin" end-point then in turn returns a token object which you can then use in other requests
+The "CrossLogin" end-point then in turn returns a **short-lived** token object which you can then use in other requests
 for authentication.
 
 The token object contains the following:
@@ -28,7 +28,7 @@ The token object contains the following:
 }
 ```
 
-Where the timestamp is the creation date. The token is a short-lived token that can be used in other requests.
+Where the timestamp is the creation date.
 
 ## End points
 
