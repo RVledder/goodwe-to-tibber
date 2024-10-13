@@ -39,7 +39,7 @@ async function init() {
   const serialNumber = inverterAllPointDataResponse.data?.inverterPoints[0]?.sn;
   if (!serialNumber) return;
 
-  const inverterData = await GoodWe.GetInverterData({ token, serialNumber });
+  const inverterData = await GoodWe.getInverterData({ token, serialNumber });
   if (!inverterData) return;
 
   console.log('=== SEM GetInverterData successful');

@@ -96,7 +96,7 @@ export class GoodWeApi extends ApiRequestHandler {
     }
   }
 
-  async GetInverterData({ token, serialNumber }: {token: Token; serialNumber: string}): Promise<GetInverterDataResponseType | void> {
+  async getInverterData({ token, serialNumber }: {token: Token; serialNumber: string}): Promise<GetInverterDataResponseType | void> {
     try {
       const headers = {
         'Token': btoa(JSON.stringify(token)),
