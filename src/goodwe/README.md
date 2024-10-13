@@ -15,6 +15,21 @@ These tokens can be sent with the API requests in the header.
 The "CrossLogin" end-point then in turn returns a token object which you can then use in other requests
 for authentication.
 
+The token object contains the following:
+
+```json
+{
+  "uid": "<uid>",
+  "timestamp": 1728837293524,
+  "token": "<short-lived-token>",
+  "client": "web",
+  "version": "",
+  "language": "en-en"
+}
+```
+
+Where the timestamp is the creation date. The token is a short-lived token that can be used in other requests.
+
 ## End points
 
 `/Common/CrossLogin`
