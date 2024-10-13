@@ -4,14 +4,19 @@ import {loginResponseSchema, LoginResponseType} from "./models/cross-login/respo
 import {ApiGetInverterAllPointRequestBody} from "./models/get-inverter-all-point/request-body";
 import {getInverterAllPointResponseSchema, GetInverterAllPointResponseType} from "./models/get-inverter-all-point/response";
 import {Token} from "./models/shared/token-schema";
-import {ApiGetInverterDataRequestBody, getInverterDataRequestBodySchema} from "./models/get-inverter-data/request-body";
+import {ApiGetInverterDataRequestBody} from "./models/get-inverter-data/request-body";
 import {getInverterDataResponseSchema, GetInverterDataResponseType} from "./models/get-inverter-data/response";
+import {GetPlantPowerChartType} from "./models/get-plant-power-chart/request-body";
+import {
+  getPlantPowerChartResponseSchema,
+  GetPlantPowerChartResponseType
+} from "./models/get-plant-power-chart/response";
 
 export class GoodWeApi extends ApiRequestHandler {
   private readonly username: string;
   private readonly password: string;
   private readonly stationID: string;
-  private readonly apiBaseUrl = 'https://www.semsportal.com/api/v3';
+  private readonly apiBaseUrl = 'https://www.semsportal.com/api';
 
   constructor({
     username,
@@ -30,9 +35,10 @@ export class GoodWeApi extends ApiRequestHandler {
   }
 
   private readonly endPoints = {
-    login: '/Common/CrossLogin',
-    getInverterAllPoint: '/PowerStation/GetInverterAllPoint',
-    getInverterData: '/Inverter/GetInverterData',
+    login: '/v3/Common/CrossLogin',
+    getInverterAllPoint: '/v3/PowerStation/GetInverterAllPoint',
+    getInverterData: '/v3/Inverter/GetInverterData',
+    getPlantPowerChart: '/v2/Charts/GetPlantPowerChart'
   }
 
   async getLoginToken(): Promise<LoginResponseType | void> {
@@ -118,6 +124,33 @@ export class GoodWeApi extends ApiRequestHandler {
       });
     } catch(error) {
       console.error('SEMS GetInvertedData Error:', error);
+    }
+  }
+
+  async getPlantPowerChart({ token, date }: {token: Token; date: string}): Promise<GetPlantPowerChartResponseType | void> {
+    try {
+      const headers = {
+        'Token': btoa(JSON.stringify(token)),
+        'Content-Type': 'application/json',
+      };
+
+      const body: GetPlantPowerChartType = {
+        date: date,
+        full_script: false,
+        id: this.stationID,
+      };
+
+      const url = this.apiBaseUrl + this.endPoints.getPlantPowerChart;
+
+      return this.makeAndRequestAndValidate<GetPlantPowerChartResponseType>({
+        url,
+        method: 'POST',
+        headers,
+        body: JSON.stringify(body),
+        schema: getPlantPowerChartResponseSchema,
+      });
+    } catch(error) {
+      console.error('SEMS GetPlantPowerChart Error:', error);
     }
   }
 }

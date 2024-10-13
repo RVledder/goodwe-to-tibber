@@ -52,4 +52,12 @@ async function init() {
   };
 
   debugTools.saveDataToFile(parsedData, 'goodwe-inverter-data.json');
+
+  const date = "2024-10-10";
+  const getPlantPowerChartData = await GoodWe.getPlantPowerChart({ token, date });
+  if (!getPlantPowerChartData) return;
+
+  console.log('=== SEM GetPlantPowerChart successful');
+
+  debugTools.saveDataToFile(getPlantPowerChartData, 'goodwe-plant-power-chart-data.json');
 }
