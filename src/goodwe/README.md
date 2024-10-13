@@ -32,11 +32,11 @@ Where the timestamp is the creation date.
 
 ## End points
 
-`/Common/CrossLogin`
+### `/Common/CrossLogin`
 
 This endpoint is used for authentication. It returns a token object which can be used in other requests.
 
-`/PowerStation/GetInverterAllPoint`
+### `/PowerStation/GetInverterAllPoint`
 
 This endpoint retrieves detailed information about the inverter's operational data and status.
 
@@ -53,7 +53,7 @@ An inverter point contains the following:
 
 4. **Other properties:** The inverterPoints object also contains other properties like the inverter's device type, serial number, capacity, connection time, power, voltage, current, and frequency.
 
-`/Inverter/GetInverterData`
+### `/Inverter/GetInverterData`
 
 This endpoint retrieves the inverter's operational data and status.
 
