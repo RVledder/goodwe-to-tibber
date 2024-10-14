@@ -95,7 +95,35 @@ The data property contains detailed information about the power generation and f
 - **generateData:** An array of key-value pairs representing the total energy generated (kWh) and the corresponding income.
 - **lines:** An array of objects representing the power output over time. Each object includes properties such as the key, unit, color, and an array of time-series data points (xy), where each point contains the time (x), power output (y), and an optional third value (z).
 
+### `/v1/Statistics/GetStatisticsCharts`
 
+This endpoint retrieves the power output of a plant over a specified time period.
+The response is data that can be used for a chart.
+
+It accepts a 'date' parameter for the data and returns information about the power output of the plant for that date.
+
+You can query this end point for a month (`type 3`) or year (`typ 4`). Day is not supported.
+
+The data property contains a properties: 
+
+- **yield**: an array of key-value pairs (`x` =  and `y`) representing the total energy generated (kWh) and the corresponding income.
+- **income**: an array of key-value pairs (`x`= date and `y` = amount in currency) representing the total income generated.
+
+### `/v1/Statistics/GetStatisticsData`
+
+This endpoint retrieves the power output of a plant over a specified time period.
+The response is data that can be used in a data table.
+
+It accepts a 'date' parameter for the data and returns information about the power output of the plant for that date.
+
+You can query this end point for a month (`type 3`) or year (`typ 4`). Day is not supported.
+
+The data property contains a properties:
+
+- **title**: The title of the data table
+- **page**: Properties for pagination
+- **cols**: The columns of the data table
+- **rows**: The rows of the data table
 
 ## Terminology
 
