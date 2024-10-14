@@ -4,8 +4,18 @@ import {commonPropertiesSchema} from "../shared/common-response-properties";
 
 const dataSchema = z.array(
   z.object({
-    yield: z.array(z.any()),
-    income: z.array(z.any()),
+    yield: z.array(
+      z.object({
+        x: z.string(),
+        y: z.number(),
+      }),
+    ),
+    income: z.array(
+      z.object({
+        x: z.string(),
+        y: z.number(),
+      }),
+    ),
     gensetGen: z.nullable(z.unknown()),
     threshold: z.array(z.unknown()),
     label: z.string(),
