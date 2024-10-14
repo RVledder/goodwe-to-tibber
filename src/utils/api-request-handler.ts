@@ -13,8 +13,7 @@ export class ApiRequestHandler {
       const validation = schema.safeParse(data);
 
       if (!validation.success) {
-        console.error('Response data is not according to schema: ', validation.error.format());
-        console.log(data);
+        console.error('Response data is not according to schema: ', validation.error.errors);
         return;
       }
 

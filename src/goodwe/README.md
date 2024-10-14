@@ -72,11 +72,9 @@ Below are some key fields included in the data property:
 - **Vac1, Vac2, Vac3:** AC voltage values for different phases.
 - **Iac1, Iac2, Iac3:** AC current values for different phases.
 - **Fac1, Fac2, Fac3:** AC frequency values for different phases.
-
 - **ETotal:** Total energy produced (kWh).
 - **EDay:** Energy produced today (kWh).
 - **Pac:** Current power output (W).
-
 - **Tempperature:** (response contains typo*) Internal temperature of the inverter (°C).
 - **WorkMode:** Current operational mode of the inverter.
 - **FirmwareVersion:** Firmware version of the inverter.
@@ -88,12 +86,16 @@ Below are some key fields included in the data property:
 ### `/v2/Charts/GetPlantPowerChart`
 
 This endpoint retrieves the power output of a plant over a specified time period.
-The GoodWe SEMS portal uses this end point to build a graph chart to display the power output of a plant over time, with intervals of 5 minutes. 
+The GoodWe SEMS portal uses this end point to build a graph chart to display the power output of a plant over time, with intervals of 5 minutes.
+
+It accepts a 'date' parameter for the data and returns information about the power output of the plant for that date.
 
 The data property contains detailed information about the power generation and financial metrics of a solar plant. It includes two main sections:
 
 - **generateData:** An array of key-value pairs representing the total energy generated (kWh) and the corresponding income.
 - **lines:** An array of objects representing the power output over time. Each object includes properties such as the key, unit, color, and an array of time-series data points (xy), where each point contains the time (x), power output (y), and an optional third value (z).
+
+
 
 ## Terminology
 
@@ -108,3 +110,9 @@ The data property contains detailed information about the power generation and f
 ## References
 
 - GoodWe SEMS API Swagger http://www.goodwe-power.com:82/swagger/ui/index
+
+## Final Notes:
+
+The `/v3/Inverter/GetInverterData` endpoint is the most useful for getting real-time data from the inverter. Use the Pac property for the current power output.
+The `/v2/Charts/GetPlantPowerChart` endpoint is useful for getting historical data. 
+The `/v1/Statistics/GetStatisticsCharts` endpoint might be used to get historical data.

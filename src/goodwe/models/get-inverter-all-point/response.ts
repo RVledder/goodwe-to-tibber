@@ -1,5 +1,6 @@
 import {z} from "zod";
 import {componentsSchema} from "../shared/components-schema";
+import {commonPropertiesSchema} from "../shared/common-response-properties";
 
 const inverterPointSchema = z.object({
   sn: z.string(),
@@ -60,12 +61,8 @@ const dataSchema = z.object({
 });
 
 export const getInverterAllPointResponseSchema = z.object({
-  language: z.string().nullable().optional(),
-  function: z.string().nullable().optional(),
-  hasError: z.boolean(),
-  msg: z.string(),
+  ...commonPropertiesSchema.shape,
   data: dataSchema.nullable(),
-  code: z.union([z.number(), z.string()]),
   components: componentsSchema,
 });
 
